@@ -129,3 +129,50 @@ const PostItem = (props) => {
 
 export default PostItem;
 ```
+
+### Обработка множество компонентов
+
+```
+import React, { useState } from "react";
+import "./styles/Reset.css";
+import "./styles/App.css";
+import PostItem from "./components/PostItem.jsx";
+function App() {
+  const [postsObj, setPosts] = useState([
+    { id: 1, title: "Javascript", body: "Description" },
+    { id: 2, title: "Javascript", body: "Description" },
+    { id: 3, title: "Javascript", body: "Description" },
+  ]);
+
+  return (
+    <div className="App">
+      {postsObj.map((postObj) => (
+        <PostItem post={postObj} key={postObj.id}></PostItem>
+      ))}
+    </div>
+
+    /* <Counter></Counter>
+      <InputText></InputText> */
+  );
+}
+
+export default App;
+```
+
+Если нам нужно прописать компоненты несколько десятков раз, то можно использовать useState, который нам всё отрисует
+А в качестве начального значения мы поместим туда массив с объектами
+
+```
+const [postsObj, setPosts] = useState([
+    { id: 1, title: "Javascript", body: "Description" },
+    { id: 2, title: "Javascript", body: "Description" },
+    { id: 3, title: "Javascript", body: "Description" },
+  ]);
+```
+
+Далее, так кк мы уже поняли, что в пропсы мы закидываем объект с ключами и значениями
+Мы просто пробежимся по массиву, добавляя на каждой итерации наш компонент с атрибутом
+С атрибутом внутри которого будет содержаться объект с подготовленными ключами и значениями
+
+А в конце необходимо добавить уникальный id к атрибуту key (мы его тоже создаем сами)
+Нужен для того, чтобы реакту было легче обновлять DOM дерево — обновлять только то, что поменялось, а не весь массив
